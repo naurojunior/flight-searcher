@@ -1,4 +1,5 @@
 const axios = require('axios');
+const params = require('./params');
 
 function filterData(results){
     return results['_r'][2][2];
@@ -86,5 +87,7 @@ async function run(){
     console.log(flightsFilteredBack);
 }
 
-run();
 
+const decoded = params.decode(process.argv);
+
+console.log(decoded);
