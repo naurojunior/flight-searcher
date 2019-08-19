@@ -76,18 +76,23 @@ function filterFlights(flights, time){
 }
 
 async function run(){
-//    const flightsFetched = await fetchFlights('GRU','CGH', 'FLN','NVT', '2019-09-23');
-//    const flightsFiltered = filterFlights(flightsFetched, '17:00');
-//    console.log("Ida: ");
-//    console.log(flightsFiltered);
+    const decoded = params.decode(process.argv);
 
-    const flightsBack = await fetchFlights('FLN','NVT', 'GRU','CGH', '2019-09-25');
-    const flightsFilteredBack = filterFlights(flightsBack);
-    console.log("Volta: ");
-    console.log(flightsFilteredBack);
+    const flightsFetched = await fetchFlights(decoded.aeroportosIda[0].airport,decoded.aeroportosIda[1].airport, decoded.aeroportosVolta[0].airport, decoded.aeroportosVolta[1].airport, decoded.dataIda);
+    const flightsFiltered = filterFlights(flightsFetched, decoded.aeroportosIda[0].timeLimit);
+    //console.log("Ida: ");
+    //console.log(flightsFiltered);
+    console.log("Melhor opção de ida: ");
+    console.log(flightsFiltered[0]);
+
+    const flightsBack = await fetchFlights(decoded.aeroportosVolta[0].airport,decoded.aeroportosVolta[1].airport, decoded.aeroportosIda[0].airport, decoded.aeroportosIda[1].airport, decoded.dataIda);
+    const flightsFilteredBack = filterFlights(flightsBack, decoded.aeroportosVolta[0].timeLimit);
+    //console.log("Volta: ");
+    //console.log(flightsFilteredBack);
+
+    console.log("Melhor opção de volta: ");
+    console.log(flightsFilteredBack[0]);
 }
 
 
-const decoded = params.decode(process.argv);
-
-console.log(decoded);
+run();
